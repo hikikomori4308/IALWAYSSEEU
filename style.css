@@ -13,11 +13,7 @@ h1 {
     font-size: 18px;
 }
 img.small-image {
-    width: 50%; /*
+    max-width: 50%;
     height: auto;
-}
-img.small-image {
-    max-width: 50%; /* Максимальная ширина изображения - 50% от ширины контейнера */
-    height: auto; /* Сохраняем пропорции изображения */
 }
 
