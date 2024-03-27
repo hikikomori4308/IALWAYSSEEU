@@ -12,3 +12,8 @@ h1 {
 #ip-address {
     font-size: 18px;
 }
+img.small-image {
+    width: 50%; /*
+    height: auto;
+}
+
