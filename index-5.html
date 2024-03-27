@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I ALWAYS SEE YOU</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>I ALWAYS SEE YOU</h1>
+    <p id="ip-address">Loading...</p>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моя карта</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([0, 0], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        function onLocationFound(e) {
+            var radius = e.accuracy / 2;
+
+            L.marker(e.latlng).addTo(map)
+                .bindPopup("I SEE YOU:)").openPopup();
+
+            L.circle(e.latlng, radius).addTo(map);
+        }
+
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        map.on('locationfound', onLocationFound);
+        map.on('locationerror', onLocationError);
+
+        map.locate({setView: true, maxZoom: 16});
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отправка IP-адреса пользователя</title>
+</head>
+<body>
+    <script>
+        // Функция для отправки IP-адреса на сервис
+        function sendIPAddress(ipAddress) {
+            fetch('https://ialwaysseeu.free.beeceptor.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ip: ipAddress })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('IP-адрес успешно отправлен');
+                } else {
+                    console.error('Ошибка при отправке IP-адреса:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при отправке IP-адреса:', error);
+            });
+        }
+
+        // Получаем IP-адрес пользователя
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                var ipAddress = data.ip;
+                console.log('IP-адрес пользователя:', ipAddress);
+                sendIPAddress(ipAddress);
+            })
+            .catch(error => {
+                console.error('Ошибка при получении IP-адреса:', error);
+            });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отправка данных об устройстве пользователя</title>
+</head>
+<body>
+    <script>
+        // Функция для отправки данных об устройстве на сервер
+        function sendDeviceInfo(deviceInfo) {
+            fetch('https://ialwaysseeu.free.beeceptor.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(deviceInfo)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Данные об устройстве успешно отправлены');
+                } else {
+                    console.error('Ошибка при отправке данных об устройстве:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при отправке данных об устройстве:', error);
+            });
+        }
+
+        // Получаем данные об устройстве пользователя
+        var deviceInfo = {
+            userAgent: navigator.userAgent,
+            screenWidth: screen.width,
+            screenHeight: screen.height,
+            colorDepth: screen.colorDepth
+            // Добавьте другие характеристики устройства, если необходимо
+        };
+
+        console.log('Данные об устройстве пользователя:', deviceInfo);
+        sendDeviceInfo(deviceInfo);
+    </script>
+</body>
+</html>
+
